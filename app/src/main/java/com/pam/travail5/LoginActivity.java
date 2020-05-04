@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
+import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
@@ -38,7 +39,12 @@ public class LoginActivity extends ChatActivity {
         avatar = findViewById(R.id.avatar);
         login = findViewById(R.id.nickname);
         progressBar = findViewById(R.id.progressBar);
-
+        if (getUserManager().getLocalUser().getUsername() != null){
+            login.setText(getUserManager().getLocalUser().getUsername(), TextView.BufferType.EDITABLE);
+        }
+        if (getUserManager().getLocalUser().getAvatarBitmap() != null){
+            avatar.setImageBitmap(getUserManager().getLocalUser().getAvatarBitmap());
+        }
         login.setOnEditorActionListener((v, actionId, event) -> {
             if (!hasUsername()) return false;
             if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
@@ -67,7 +73,6 @@ public class LoginActivity extends ChatActivity {
         super.onResume();
         progressBar.setVisibility(View.INVISIBLE);
         login.setEnabled(true);
-        login.setText(null);
     }
 
     @Override
@@ -132,7 +137,7 @@ public class LoginActivity extends ChatActivity {
                 avatar.setImageBitmap(avatarImage);
                 getUserManager().getLocalUser().setAvatar(avatarImage);
 
-                avatarFile.delete();
+               // avatarFile.delete();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

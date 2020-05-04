@@ -1,5 +1,7 @@
 package com.pam.travail5.model;
 
+import android.graphics.Bitmap;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;

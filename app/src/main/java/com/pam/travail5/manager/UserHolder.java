@@ -72,6 +72,7 @@ abstract class UserHolder {
     }
 
     public Avatar getAvatar() {
+        Session session = getSession();
         if (avatarBitmap != null) {
             avatar = new Avatar(avatarBitmap);
         } else if (avatarBase64 != null) {
@@ -118,6 +119,9 @@ abstract class UserHolder {
                 Avatar avatar = getAvatar();
                 if (avatar != null) {
                     avatarBitmap = avatar.getImage();
+                }
+                else {
+                    avatarBitmap = databaseManager.getAvatar(uuid).getImage();
                 }
             }
         }
