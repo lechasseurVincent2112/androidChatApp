@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">travail4c</string>
+    <string name="app_name" translatable="false">travail4c</string>
+    <string name="date" translatable="false">date</string>
+    <string name="avatarimage" translatable="false">avatarImage</string>
+    <string name="sendbutton" translatable="false">sendButton</string>
     <string name="vous">Vous</string>
 </resources>
