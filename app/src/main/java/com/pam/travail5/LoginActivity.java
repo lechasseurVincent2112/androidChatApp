@@ -43,7 +43,9 @@ public class LoginActivity extends ChatActivity {
             login.setText(getUserManager().getLocalUser().getUsername(), TextView.BufferType.EDITABLE);
         }
         if (getUserManager().getLocalUser().getAvatarBitmap() != null){
-            avatar.setImageBitmap(getUserManager().getLocalUser().getAvatarBitmap());
+            Bitmap imgAvatar = getUserManager().getLocalUser().getAvatarBitmap();
+            avatar.setImageBitmap(imgAvatar);
+            getUserManager().getLocalUser().setAvatar(imgAvatar);
         }
         login.setOnEditorActionListener((v, actionId, event) -> {
             if (!hasUsername()) return false;
@@ -137,7 +139,7 @@ public class LoginActivity extends ChatActivity {
                 avatar.setImageBitmap(avatarImage);
                 getUserManager().getLocalUser().setAvatar(avatarImage);
 
-               // avatarFile.delete();
+                avatarFile.delete();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

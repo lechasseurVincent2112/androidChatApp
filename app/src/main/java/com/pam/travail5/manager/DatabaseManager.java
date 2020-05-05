@@ -12,9 +12,6 @@ import java.util.List;
 
 public abstract class DatabaseManager {
 
-//    public DatabaseManager(ChatDatabase dataBase) {
-//        this.dataBase = dataBase;
-//    }
 
     public Avatar getAvatar(String uuid) {
         return getDatabase().getAvatarDao().queryForLast(uuid);

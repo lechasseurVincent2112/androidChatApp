@@ -38,7 +38,7 @@ public abstract class AvatarDao {
 
     @Query("Select avatars.* from avatars, sessions, users " +
             "where sessions.avatarId = avatars.id " +
-            "and sessions.avatarId != 1 " +
+            "and sessions.avatarId != -1 " +
             "and sessions.userId = users.id " +
             "and users.uuid = :uuid " +
             "order by sessions.login desc limit 1")

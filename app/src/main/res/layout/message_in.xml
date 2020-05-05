@@ -19,7 +19,6 @@
         android:contentDescription="@string/avatarimage"
         tools:srcCompat="@tools:sample/avatars"
         android:id="@+id/avatar"
-        android:onClick="takePicture"
         app:layout_constraintBottom_toTopOf="@+id/nickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

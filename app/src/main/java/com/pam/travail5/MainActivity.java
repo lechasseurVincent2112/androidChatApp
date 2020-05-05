@@ -29,7 +29,7 @@ public class MainActivity extends ChatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setFullScreen();
         list = findViewById(R.id.messages);
         editText = findViewById(R.id.inputText);
 
@@ -41,7 +41,11 @@ public class MainActivity extends ChatActivity {
         messages = getDatabaseManager().getAllMessages();
         adapter = new MessageAdapter(messages);
         list.setAdapter(adapter);
-//        recupMsg();
+    }
+
+    private void setFullScreen(){
+        View root = getWindow().getDecorView();
+        root.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     @Override
@@ -72,6 +76,7 @@ public class MainActivity extends ChatActivity {
         editText.setText("");
 
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
