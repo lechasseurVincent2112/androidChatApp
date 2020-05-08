@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="editWidth">226dp</dimen>
+    <dimen name="editHeight">62dp</dimen>
+    <dimen name="progressMargin">20dp</dimen>
+    <dimen name="avatarWidth">100dp</dimen>
+    <dimen name="avatarHeight">100dp</dimen>
+    <dimen name="absoluteY">731dp</dimen>
+</resources>

@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+
+import androidx.annotation.NonNull;
 import androidx.exifinterface.media.ExifInterface;
+
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 import com.pam.travail5.model.Session;
+import com.pam.travail5.persistence.Converters;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +32,9 @@ public class LoginActivity extends ChatActivity {
 
     public static final String USERNAME = "username";
     public static final int REQUEST_CODE = 1;
+    public static final String IMG_AVATAR = "imgAvatar";
+    public static final String AVATAR = "avatar";
+    public static final String AVATAR_AUTH = "avatarAuth";
     private EditText login;
     private ProgressBar progressBar;
     private ImageView avatar;
@@ -39,14 +47,20 @@ public class LoginActivity extends ChatActivity {
         avatar = findViewById(R.id.avatar);
         login = findViewById(R.id.nickname);
         progressBar = findViewById(R.id.progressBar);
-        if (getUserManager().getLocalUser().getUsername() != null){
+        if (savedInstanceState != null && savedInstanceState.getString(IMG_AVATAR) != null){
+            Bitmap avatarBitmap = Converters.convert(savedInstanceState.getString(IMG_AVATAR));
+            avatar.setImageBitmap(avatarBitmap);
+            getUserManager().getLocalUser().setAvatar(avatarBitmap);
+        }
+        if (getUserManager().getLocalUser().getUsername() != null) {
             login.setText(getUserManager().getLocalUser().getUsername(), TextView.BufferType.EDITABLE);
         }
-        if (getUserManager().getLocalUser().getAvatarBitmap() != null){
+        if (getUserManager().getLocalUser().getAvatarBitmap() != null) {
             Bitmap imgAvatar = getUserManager().getLocalUser().getAvatarBitmap();
             avatar.setImageBitmap(imgAvatar);
             getUserManager().getLocalUser().setAvatar(imgAvatar);
         }
+
         login.setOnEditorActionListener((v, actionId, event) -> {
             if (!hasUsername()) return false;
             if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
@@ -93,10 +107,10 @@ public class LoginActivity extends ChatActivity {
 
     public void takePicture(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null){
+        if (intent.resolveActivity(getPackageManager()) != null) {
             File outPutDir = getCacheDir();
-            avatarFile = new File(outPutDir, "avatar");
-            Uri avatarUri = FileProvider.getUriForFile(this, "avatarAuth", avatarFile);
+            avatarFile = new File(outPutDir, AVATAR);
+            Uri avatarUri = FileProvider.getUriForFile(this, AVATAR_AUTH, avatarFile);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, avatarUri);
             startActivityForResult(intent, REQUEST_CODE);
         }
@@ -105,13 +119,13 @@ public class LoginActivity extends ChatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             try {
                 ExifInterface exif = new ExifInterface(avatarFile.getAbsolutePath());
                 int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
                 float rotate = 0.f;
-                switch (orientation){
+                switch (orientation) {
                     case ExifInterface.ORIENTATION_ROTATE_270:
                         rotate = 270;
                         break;
@@ -134,15 +148,24 @@ public class LoginActivity extends ChatActivity {
                 matrix.postRotate(rotate);
                 matrix.postScale(ratio, ratio);
 
-                avatarImage = Bitmap.createBitmap(avatarImage, 0, 0, w, h ,matrix, true);
+                avatarImage = Bitmap.createBitmap(avatarImage, 0, 0, w, h, matrix, true);
 
                 avatar.setImageBitmap(avatarImage);
                 getUserManager().getLocalUser().setAvatar(avatarImage);
+                getUserManager().getLocalUser().setAvatar(Converters.convert(avatarImage));
 
                 avatarFile.delete();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (getUserManager().getLocalUser().getAvatarBase64() != null) {
+            outState.putString(IMG_AVATAR, getUserManager().getLocalUser().getAvatarBase64());
         }
     }
 }

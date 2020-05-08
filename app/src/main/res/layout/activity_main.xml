@@ -43,6 +43,6 @@
         android:layout_height="wrap_content"
         app:barrierDirection="top"
         app:constraint_referenced_ids="sendBtn"
-        tools:layout_editor_absoluteY="731dp" />
+        tools:layout_editor_absoluteY="@dimens/absoluteY" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
