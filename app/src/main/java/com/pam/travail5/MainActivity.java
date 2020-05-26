@@ -18,6 +18,7 @@ import java.util.List;
 
 public class MainActivity extends ChatActivity {
 
+    public static final String MESSAGE_DB_DB = "message-db.db";
     private RecyclerView list;
     private EditText editText;
     private String username;
@@ -34,7 +35,7 @@ public class MainActivity extends ChatActivity {
         editText = findViewById(R.id.inputText);
 
         username = getIntent().getStringExtra(LoginActivity.USERNAME);
-        db = Room.databaseBuilder(this, ChatDatabase.class, "message-db.db").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(this, ChatDatabase.class, MESSAGE_DB_DB).allowMainThreadQueries().build();
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         list.setLayoutManager(manager);

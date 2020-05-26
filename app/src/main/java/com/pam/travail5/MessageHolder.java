@@ -24,7 +24,7 @@ public class MessageHolder extends RecyclerView.ViewHolder {
 
     public void update(MessageSession message){
         this.message.setText(message.getMessage().getMessage());
-        DateFormat formater = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        DateFormat formater = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
         this.date.setText(formater.format(message.getMessage().getTime()));
         if (message.getDetails().getAvatar() != null && message.getDetails().getAvatar().getImage() != null){
             avatar.setVisibility(View.VISIBLE);

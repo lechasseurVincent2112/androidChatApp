@@ -17,6 +17,7 @@ public class ChatApplication extends Application {
     public static final String URL = "https://calma-420-4n2-aa.herokuapp.com";
     public static final String UUID = "uuid";
     public static final String CONFIGS = "configs";
+    public static final String CHAT_DATABASE_DB = "chat-database.db";
     private Socket socket;
     private ChatDatabase chatDataBase;
 
@@ -31,7 +32,7 @@ public class ChatApplication extends Application {
     public ChatDatabase getDataBase() {
         if (chatDataBase == null || !chatDataBase.isOpen()) {
             chatDataBase = Room.databaseBuilder(this, ChatDatabase.class,
-                    "chat-database.db").fallbackToDestructiveMigration()
+                    CHAT_DATABASE_DB).fallbackToDestructiveMigration()
                     .allowMainThreadQueries().build();
         }
         return chatDataBase;

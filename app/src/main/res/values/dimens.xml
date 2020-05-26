@@ -6,4 +6,10 @@
     <dimen name="avatarWidth">100dp</dimen>
     <dimen name="avatarHeight">100dp</dimen>
     <dimen name="absoluteY">731dp</dimen>
+    <dimen name="dateSize">16sp</dimen>
+    <dimen name="usernameSize">30sp</dimen>
+    <dimen name="layout_marginEnd">50dp</dimen>
+    <dimen name="paddingStart">35dp</dimen>
+    <dimen name="paddingEnd">35dp</dimen>
+    <dimen name="padding">10dp</dimen>
 </resources>
