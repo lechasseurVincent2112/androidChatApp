@@ -14,6 +14,8 @@ import com.pam.travail5.model.Message;
 import com.pam.travail5.model.MessageSession;
 import com.pam.travail5.persistence.ChatDatabase;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import java.util.List;
 
 public class MainActivity extends ChatActivity {
@@ -25,6 +27,8 @@ public class MainActivity extends ChatActivity {
     private MessageAdapter adapter;
     private List<MessageSession> messages;
     private ChatDatabase db;
+    private ExpandableLayout expandableLayout;
+    private EditText inputTextEmoji;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,8 @@ public class MainActivity extends ChatActivity {
         setFullScreen();
         list = findViewById(R.id.messages);
         editText = findViewById(R.id.inputText);
-
+        expandableLayout = findViewById(R.id.expandable_layout);
+        inputTextEmoji = findViewById(R.id.inputTextEmoji);
         username = getIntent().getStringExtra(LoginActivity.USERNAME);
         db = Room.databaseBuilder(this, ChatDatabase.class, MESSAGE_DB_DB).allowMainThreadQueries().build();
 
@@ -44,7 +49,7 @@ public class MainActivity extends ChatActivity {
         list.setAdapter(adapter);
     }
 
-    private void setFullScreen(){
+    private void setFullScreen() {
         View root = getWindow().getDecorView();
         root.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
@@ -71,7 +76,7 @@ public class MainActivity extends ChatActivity {
     public void send(View view) {
         String message = editText.getText().toString().trim();
         if (message.equals("")) return;
-        Message msg = getConnectionManager().sendMessage(message);
+        Message msg = getConnectionManager().sendMessage(message, "tagTest");
         add(msg);
         editText.clearFocus();
         editText.setText("");
@@ -91,5 +96,28 @@ public class MainActivity extends ChatActivity {
         messages.add(getDatabaseManager().getMessageDetails(message.getId()));
         adapter.notifyDataSetChanged();
         list.scrollToPosition(messages.size() - 1);
+    }
+
+    public void searchEmoji() {
+        if (inputTextEmoji.getText().toString().trim() == "") {
+            messages = getDatabaseManager().getAllMessages();
+        } else {
+            messages = getDatabaseManager().getMessageByTag(inputTextEmoji.getText().toString().trim());
+        }
+        adapter.notifyDataSetChanged();
+        list.scrollToPosition(messages.size() - 1);
+    }
+
+    public void animateSearchBar(View view) {
+        if (expandableLayout.isExpanded()) {
+            expandableLayout.collapse();
+            inputTextEmoji.clearFocus();
+            inputTextEmoji.setText("");
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } else {
+            expandableLayout.expand();
+        }
     }
 }

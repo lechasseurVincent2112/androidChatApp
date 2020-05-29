@@ -97,9 +97,9 @@ public class ConnectionManager {
         }
     }
 
-    public Message sendMessage(String message) {
+    public Message sendMessage(String message, String tag) {
         getSocket().emit(NEW_MESSAGE, message);
-        return getUserManager().getLocalUser().newMessage(message);
+        return getUserManager().getLocalUser().newMessage(message, tag);
     }
 
     private void onUserJoined(JSONObject data) {

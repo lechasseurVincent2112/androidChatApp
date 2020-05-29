@@ -21,11 +21,11 @@
         android:id="@+id/inputText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sendBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/sendBtn"
@@ -42,7 +42,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="sendBtn"
+        app:constraint_referenced_ids="sendBtn,inputText"
         tools:layout_editor_absoluteY="@dimens/absoluteY" />
+
+    <include
+        layout="@layout/collapse_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/messages"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

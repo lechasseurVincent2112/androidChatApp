@@ -28,14 +28,16 @@ public class Message {
     private String message;
     private int type;
     private long sessionId;
+    private String tag;
 
 
-    public Message(long id, String message, Date time, int type, long sessionId) {
+    public Message(long id, String message, Date time, int type, long sessionId, String tag) {
         this.id = id;
         this.message = message;
         this.time = time;
         this.type = type;
         this.sessionId = sessionId;
+        this.tag = tag;
     }
 
     @Ignore
@@ -84,5 +86,13 @@ public class Message {
 
     public void setSessionId(long sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

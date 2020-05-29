@@ -38,7 +38,7 @@ abstract class UserHolder {
         return session;
     }
 
-    public abstract Message newMessage(String content);
+    public abstract Message newMessage(String content, String tag);
 
     public UserHolder setUsername(String username) {
         this.username = username;

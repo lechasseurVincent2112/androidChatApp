@@ -29,7 +29,11 @@ public abstract class DatabaseManager {
         return getDatabase().getMessageDao().queryByIdWithSession(msgId);
     }
 
-    public Message newMessage(String uuid, String content, int type) {
+    public List<MessageSession> getMessageByTag(String tag){
+        return getDatabase().getMessageDao().queryByTag(tag);
+    }
+
+    public Message newMessage(String uuid, String content, int type, String tag) {
         Session session = getSession(uuid);
         Message message = getDatabase().getMessageDao().insert(session, type, content);
         return message;

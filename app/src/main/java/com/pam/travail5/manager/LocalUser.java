@@ -10,8 +10,13 @@ public class LocalUser extends UserHolder {
     }
 
     @Override
-    public Message newMessage(String content) {
-        return getDatabaseManager().newMessage(getUuid(), content, com.pam.travail5.model.Message.TYPE_OUTGOING);
+    public Message newMessage(String content, String tag) {
+        if (tag == ""){
+            return getDatabaseManager().newMessage(getUuid(), content, com.pam.travail5.model.Message.TYPE_OUTGOING, "");
+        } else {
+            return getDatabaseManager().newMessage(getUuid(), content, com.pam.travail5.model.Message.TYPE_OUTGOING, tag);
+
+        }
     }
 
     @Override

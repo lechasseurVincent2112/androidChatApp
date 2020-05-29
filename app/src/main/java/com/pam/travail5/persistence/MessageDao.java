@@ -31,4 +31,7 @@ public abstract class MessageDao {
     @Query(value = "SELECT * from messages order by time")
     public abstract List<MessageSession> queryForAll();
 
+    @Query(value = "SELECT * from messages where message like '%' + :tag + '%'")
+    public abstract List<MessageSession> queryByTag(String tag);
+
 }
